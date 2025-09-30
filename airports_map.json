@@ -1,0 +1,53 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 960,
+  "height": 540,
+  "projection": {"type": "equalEarth"},
+  "config": {"background": "white"},
+  "title": {
+    "text": "Busiest Airports (2022): Proportional Symbol Map",
+    "subtitle": "Circle size ∝ total passengers",
+    "anchor": "start",
+    "fontSize": 18
+  },
+  "layer": [
+    { "data": {"sphere": {}}, "mark": {"type": "geoshape", "fill": "#eef3fa"} },
+    { "data": {"graticule": {"step": [20, 20]}}, "mark": {"type": "geoshape", "stroke": "#c9d4e0", "strokeWidth": 0.6} },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/vega/vega-datasets/master/data/world-110m.json",
+        "format": {"type": "topojson", "feature": "countries"}
+      },
+      "mark": {"type": "geoshape", "fill": "#f7f7f7", "stroke": "#999", "strokeWidth": 0.5}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/vika-senthil/w9hw/main/modified_busiest_airports_2022.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        { "calculate": "toNumber(replace(datum['Total passengers'], /,/g, ''))", "as": "PassengersNum" }
+      ],
+      "mark": { "type": "circle", "opacity": 0.85, "stroke": "white", "strokeWidth": 0.6 },
+      "encoding": {
+        "longitude": {"field": "long", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "size": {
+          "field": "PassengersNum",
+          "type": "quantitative",
+          "scale": {"range": [30, 1200]},
+          "legend": {"title": "Total passengers (2022)"}
+        },
+        "tooltip": [
+          {"field": "Airport", "title": "Airport"},
+          {"field": "Location"},
+          {"field": "Country"},
+          {"field": "Rank"},
+          {"field": "Code (IATA/ICAO)", "title": "IATA/ICAO"},
+          {"field": "PassengersNum", "title": "Total passengers", "format": ","}
+        ],
+        "order": {"field": "PassengersNum", "sort": "descending"}
+      }
+    }
+  ]
+}
