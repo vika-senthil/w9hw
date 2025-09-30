@@ -1,1 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Busiest Airports 2022 — Proportional Symbol Map</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        margin: 2rem;
+        background: #fafafa;
+        color: #333;
+      }
+      #vis {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Busiest Airports 2022 — Proportional Symbol Map</h2>
+    <div id="vis"></div>
 
+    <script>
+      // this assumes airports_map.json is in the same folder as index.html
+      vegaEmbed("#vis", "airports_map.json", { actions: false })
+        .catch(console.error);
+    </script>
+  </body>
+</html>
